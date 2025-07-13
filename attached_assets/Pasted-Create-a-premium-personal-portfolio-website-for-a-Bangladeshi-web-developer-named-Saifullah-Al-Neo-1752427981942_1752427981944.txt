@@ -1,0 +1,60 @@
+Create a premium personal portfolio website for a Bangladeshi web developer named **Saifullah Al Neoaz**, also known as **nexo_here**. The site should be modern, responsive, and visually captivating. It must be suitable for deployment on platforms like Vercel, Render, or Railway.
+
+🔹 **Important Instruction:**
+Do **not** include fake or placeholder projects like "Cryptocurrency Tracker" or similar. Instead, fetch and display **real public repositories** from the user's GitHub profile:  
+👉 GitHub: [https://github.com/nexo-here](https://github.com/nexo-here)
+
+Use GitHub API or static fetch to list actual projects with:
+- Project name
+- Description
+- Technologies used (if available)
+- Link to GitHub repo
+- Optional: Live demo link if present in repo
+
+🔹 **Sections to Include:**
+
+1. **Hero Section**
+   - Tagline: *Crafting Scalable Web Solutions with Precision*
+   - CTA: “Explore My Work”
+   - No top bar or name repetition
+
+2. **About Me**
+   - Full Name: Saifullah Al Neoaz
+   - Nickname: nexo_here
+   - College: Holy Lang College, Dinajpur
+   - Location: Dinajpur, Bangladesh
+   - Class: HSC26
+   - Profession: Web Developer
+
+3. **Services**
+   - Custom website and bot development
+   - Emphasize scalability, automation, and clean architecture
+
+4. **Portfolio**
+   - Dynamically show real GitHub projects from [https://github.com/nexo-here](https://github.com/nexo-here)
+   - No fake or placeholder projects
+   - Use elegant cards with hover effects and icons
+
+5. **Contact**
+   - Facebook: [https://www.facebook.com/share/19bxfCDATi/?mibextid=qi2Omg](https://www.facebook.com/share/19bxfCDATi/?mibextid=qi2Omg)
+   - WhatsApp: [wa.me/8801609189135](https://wa.me/8801609189135)
+   - Email: salneowaz@gmail.com
+   - Instagram: [https://www.instagram.com/nexo.o.o/](https://www.instagram.com/nexo.o.o/)
+
+🔹 **Design & UI Enhancements:**
+
+- Font pairing: `Poppins` + `Inter`
+- Dark theme with electric blue or neon green accents
+- Scroll animations (AOS.js or Framer Motion)
+- Glassmorphism or Neumorphism card styles
+- Responsive layout for all devices
+- Icons: FontAwesome or Heroicons
+
+🔹 **Tech Stack & Deployment:**
+
+- Use TypeScript with React or Next.js
+- Structure code for easy deployment on Vercel
+- Include comments for maintainability
+
+The final result should feel premium, authentic, and showcase **nexo_here’s real work**—not generic templates.
+

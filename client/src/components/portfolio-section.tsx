@@ -1,62 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import { fetchGitHubRepos, fetchRepoLanguages, getTechnologyIcon, formatDate, type GitHubRepo } from "@/lib/github";
 
 export default function PortfolioSection() {
-  const projects = [
-    {
-      title: "E-Commerce Platform",
-      description: "Full-stack e-commerce solution built with React, Node.js, and MongoDB. Features include user authentication, payment integration, and admin dashboard.",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400",
-      technologies: ["React", "Node.js", "MongoDB", "TypeScript"],
-      githubUrl: "https://github.com/nexo-here",
-      liveUrl: "#"
-    },
-    {
-      title: "Discord Moderation Bot",
-      description: "Advanced Discord bot with moderation features, custom commands, and database integration. Serves 10,000+ users across multiple servers.",
-      image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400",
-      technologies: ["Discord.js", "TypeScript", "PostgreSQL", "Redis"],
-      githubUrl: "https://github.com/nexo-here",
-      liveUrl: "#"
-    },
-    {
-      title: "Analytics Dashboard",
-      description: "Real-time analytics dashboard with data visualization, user management, and API integrations. Built for enterprise-level data processing.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400",
-      technologies: ["Next.js", "Chart.js", "Express", "Socket.io"],
-      githubUrl: "https://github.com/nexo-here",
-      liveUrl: "#"
-    },
-    {
-      title: "Task Management App",
-      description: "Cross-platform mobile application for task management with real-time sync, offline support, and team collaboration features.",
-      image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400",
-      technologies: ["React Native", "Expo", "Firebase", "Redux"],
-      githubUrl: "https://github.com/nexo-here",
-      liveUrl: "#"
-    },
-    {
-      title: "AI Content Generator",
-      description: "Intelligent content generation tool using OpenAI API with custom fine-tuning for specific use cases and automated workflow integration.",
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400",
-      technologies: ["OpenAI API", "Python", "FastAPI", "Docker"],
-      githubUrl: "https://github.com/nexo-here",
-      liveUrl: "#"
-    },
-    {
-      title: "Cryptocurrency Tracker",
-      description: "Real-time cryptocurrency tracking application with portfolio management, price alerts, and market analysis tools integrated with multiple exchanges.",
-      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400",
-      technologies: ["Vue.js", "WebSocket", "CoinGecko API", "PWA"],
-      githubUrl: "https://github.com/nexo-here",
-      liveUrl: "#"
-    }
-  ];
+  // Fetch real GitHub repositories
+  const { data: repos, isLoading, error } = useQuery({
+    queryKey: ['github-repos'],
+    queryFn: fetchGitHubRepos,
+    staleTime: 1000 * 60 * 10, // Cache for 10 minutes
+    retry: 3
+  });
 
+  const [reposWithLanguages, setReposWithLanguages] = useState<(GitHubRepo & { languages: string[] })[]>([]);
+
+  // Fetch languages for each repository
+  useEffect(() => {
+    if (repos) {
+      const fetchAllLanguages = async () => {
+        const reposWithLangs = await Promise.all(
+          repos.map(async (repo) => {
+            try {
+              const languages = await fetchRepoLanguages(repo.languages_url);
+              return { ...repo, languages };
+            } catch (error) {
+              console.error(`Error fetching languages for ${repo.name}:`, error);
+              return { ...repo, languages: repo.language ? [repo.language] : [] };
+            }
+          })
+        );
+        setReposWithLanguages(reposWithLangs);
+      };
+
+      fetchAllLanguages();
+    }
+  }, [repos]);
+
+  // Calculate dynamic stats from GitHub data
   const stats = [
-    { label: "Repositories", value: "50+", color: "text-blue-500" },
-    { label: "Commits This Year", value: "200+", color: "text-green-500" },
-    { label: "Active Projects", value: "15+", color: "text-blue-500" }
+    { 
+      label: "Public Repositories", 
+      value: repos ? `${repos.length}+` : "Loading...", 
+      color: "text-blue-500" 
+    },
+    { 
+      label: "Total Stars", 
+      value: repos ? `${repos.reduce((sum, repo) => sum + repo.stargazers_count, 0)}+` : "Loading...", 
+      color: "text-yellow-500" 
+    },
+    { 
+      label: "Total Forks", 
+      value: repos ? `${repos.reduce((sum, repo) => sum + repo.forks_count, 0)}+` : "Loading...", 
+      color: "text-green-500" 
+    }
   ];
 
   return (
@@ -93,59 +89,138 @@ export default function PortfolioSection() {
           </motion.p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              className="glass dark:glass-dark rounded-2xl overflow-hidden hover:shadow-2xl hover:scale-105 transition-all duration-300 group"
-              data-aos="fade-up"
-              data-aos-delay={index * 100}
-              whileHover={{ y: -5 }}
-            >
-              <div className="relative overflow-hidden">
-                <img 
-                  src={project.image} 
-                  alt={project.title}
-                  className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300" 
-                />
+        {/* GitHub Repositories Loading and Error States */}
+        {isLoading && (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(6)].map((_, index) => (
+              <div key={index} className="glass dark:glass-dark rounded-2xl p-6 animate-pulse">
+                <div className="h-4 bg-slate-300 dark:bg-slate-600 rounded mb-4"></div>
+                <div className="h-3 bg-slate-300 dark:bg-slate-600 rounded mb-2"></div>
+                <div className="h-3 bg-slate-300 dark:bg-slate-600 rounded mb-4"></div>
+                <div className="flex gap-2">
+                  <div className="h-6 w-16 bg-slate-300 dark:bg-slate-600 rounded"></div>
+                  <div className="h-6 w-16 bg-slate-300 dark:bg-slate-600 rounded"></div>
+                </div>
               </div>
-              <div className="p-6">
-                <h3 className="font-poppins font-semibold text-xl mb-3">{project.title}</h3>
-                <p className="text-slate-600 dark:text-slate-400 mb-4">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map((tech, idx) => (
-                    <span 
-                      key={idx}
-                      className={`px-2 py-1 ${idx % 2 === 0 ? 'bg-blue-500/20 text-blue-500' : 'bg-green-500/20 text-green-500'} rounded text-xs`}
-                    >
-                      {tech}
+            ))}
+          </div>
+        )}
+
+        {error && (
+          <div className="text-center py-12">
+            <div className="glass dark:glass-dark rounded-2xl p-8 max-w-md mx-auto">
+              <i className="fas fa-exclamation-triangle text-yellow-500 text-4xl mb-4"></i>
+              <h3 className="text-xl font-semibold mb-2">Unable to Load Projects</h3>
+              <p className="text-slate-600 dark:text-slate-400 mb-4">
+                There was an issue connecting to GitHub. Please check back later.
+              </p>
+              <motion.a 
+                href="https://github.com/nexo-here" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                whileHover={{ scale: 1.05 }}
+              >
+                <i className="fab fa-github mr-2"></i>View on GitHub
+              </motion.a>
+            </div>
+          </div>
+        )}
+
+        {/* Real GitHub Projects Grid */}
+        {reposWithLanguages.length > 0 && (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {reposWithLanguages.map((repo, index) => (
+              <motion.div
+                key={repo.id}
+                className="glass dark:glass-dark rounded-2xl overflow-hidden hover:shadow-2xl hover:scale-105 transition-all duration-300 group"
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
+                whileHover={{ y: -5 }}
+              >
+                {/* Repository Header with Gradient */}
+                <div className="relative bg-gradient-to-r from-blue-500 to-green-500 p-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-poppins font-semibold text-lg text-white truncate">
+                      {repo.name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    </h3>
+                    <div className="flex items-center space-x-2 text-white/80">
+                      {repo.stargazers_count > 0 && (
+                        <span className="flex items-center text-sm">
+                          <i className="fas fa-star mr-1"></i>
+                          {repo.stargazers_count}
+                        </span>
+                      )}
+                      {repo.forks_count > 0 && (
+                        <span className="flex items-center text-sm">
+                          <i className="fas fa-code-fork mr-1"></i>
+                          {repo.forks_count}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-6">
+                  {/* Description */}
+                  <p className="text-slate-600 dark:text-slate-400 mb-4 line-clamp-3">
+                    {repo.description || "A project by nexo_here showcasing modern development practices and clean code architecture."}
+                  </p>
+
+                  {/* Languages/Technologies */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {repo.languages.slice(0, 4).map((tech, idx) => (
+                      <span 
+                        key={idx}
+                        className="flex items-center px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full text-xs font-medium"
+                      >
+                        <i className={`${getTechnologyIcon(tech)} mr-1`}></i>
+                        {tech}
+                      </span>
+                    ))}
+                    {repo.topics.slice(0, 2).map((topic, idx) => (
+                      <span 
+                        key={`topic-${idx}`}
+                        className="px-2 py-1 bg-blue-500/20 text-blue-500 rounded text-xs"
+                      >
+                        #{topic}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Repository Links and Info */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex space-x-4">
+                      <motion.a 
+                        href={repo.html_url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center text-blue-500 hover:text-blue-600 transition-colors font-medium"
+                        whileHover={{ scale: 1.05 }}
+                      >
+                        <i className="fab fa-github mr-2"></i>Source
+                      </motion.a>
+                      {repo.homepage && (
+                        <motion.a 
+                          href={repo.homepage}
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center text-green-500 hover:text-green-600 transition-colors font-medium"
+                          whileHover={{ scale: 1.05 }}
+                        >
+                          <i className="fas fa-external-link-alt mr-2"></i>Live
+                        </motion.a>
+                      )}
+                    </div>
+                    <span className="text-xs text-slate-500 dark:text-slate-400">
+                      {formatDate(repo.updated_at)}
                     </span>
-                  ))}
+                  </div>
                 </div>
-                <div className="flex space-x-4">
-                  <motion.a 
-                    href={project.githubUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex items-center text-blue-500 hover:text-blue-600 transition-colors"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    <i className="fab fa-github mr-2"></i>Code
-                  </motion.a>
-                  <motion.a 
-                    href={project.liveUrl}
-                    className="flex items-center text-green-500 hover:text-green-600 transition-colors"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    <i className="fas fa-external-link-alt mr-2"></i>Live Demo
-                  </motion.a>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
         
         {/* GitHub Stats */}
         <motion.div 
