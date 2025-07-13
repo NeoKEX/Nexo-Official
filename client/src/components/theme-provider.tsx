@@ -13,15 +13,23 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as Theme;
-    if (savedTheme) {
-      setTheme(savedTheme);
+    try {
+      const savedTheme = localStorage.getItem("theme") as Theme;
+      if (savedTheme && (savedTheme === "light" || savedTheme === "dark")) {
+        setTheme(savedTheme);
+      }
+    } catch (error) {
+      console.error("Error accessing localStorage:", error);
     }
   }, []);
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-    localStorage.setItem("theme", theme);
+    try {
+      document.documentElement.classList.toggle("dark", theme === "dark");
+      localStorage.setItem("theme", theme);
+    } catch (error) {
+      console.error("Error setting theme:", error);
+    }
   }, [theme]);
 
   const toggleTheme = () => {

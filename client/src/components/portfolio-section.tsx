@@ -112,7 +112,7 @@ export default function PortfolioSection() {
               <i className="fas fa-exclamation-triangle text-yellow-500 text-4xl mb-4"></i>
               <h3 className="text-xl font-semibold mb-2">Unable to Load Projects</h3>
               <p className="text-slate-600 dark:text-slate-400 mb-4">
-                There was an issue connecting to GitHub. Please check back later.
+                {error instanceof Error ? error.message : "There was an issue connecting to GitHub. Please check back later."}
               </p>
               <motion.a 
                 href="https://github.com/nexo-here" 
@@ -122,6 +122,28 @@ export default function PortfolioSection() {
                 whileHover={{ scale: 1.05 }}
               >
                 <i className="fab fa-github mr-2"></i>View on GitHub
+              </motion.a>
+            </div>
+          </div>
+        )}
+
+        {/* No repositories found message */}
+        {!isLoading && !error && reposWithLanguages.length === 0 && (
+          <div className="text-center py-12">
+            <div className="glass dark:glass-dark rounded-2xl p-8 max-w-md mx-auto">
+              <i className="fas fa-code text-blue-500 text-4xl mb-4"></i>
+              <h3 className="text-xl font-semibold mb-2">No Projects Found</h3>
+              <p className="text-slate-600 dark:text-slate-400 mb-4">
+                Currently loading projects or no public repositories are available.
+              </p>
+              <motion.a 
+                href="https://github.com/nexo-here" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                whileHover={{ scale: 1.05 }}
+              >
+                <i className="fab fa-github mr-2"></i>Visit GitHub Profile
               </motion.a>
             </div>
           </div>

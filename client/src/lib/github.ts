@@ -12,6 +12,8 @@ export interface GitHubRepo {
   created_at: string;
   updated_at: string;
   pushed_at: string;
+  fork: boolean;
+  private: boolean;
 }
 
 export interface GitHubLanguages {
@@ -26,19 +28,32 @@ const GITHUB_API_BASE = 'https://api.github.com';
  */
 export async function fetchGitHubRepos(): Promise<GitHubRepo[]> {
   try {
-    const response = await fetch(`${GITHUB_API_BASE}/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=20`);
+    const response = await fetch(`${GITHUB_API_BASE}/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=50`);
     
     if (!response.ok) {
-      throw new Error(`GitHub API error: ${response.status}`);
+      if (response.status === 403) {
+        throw new Error('GitHub API rate limit exceeded. Please try again later.');
+      }
+      throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
     }
     
     const repos: GitHubRepo[] = await response.json();
     
     // Filter out forks and focus on original work
-    return repos
-      .filter(repo => !repo.name.includes('fork') && repo.description !== null)
+    const filteredRepos = repos
+      .filter(repo => !repo.fork && !repo.private)
       .sort((a, b) => new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime())
       .slice(0, 6); // Show top 6 most recently updated projects
+    
+    // If no original repos found, show all public repos (including forks)
+    if (filteredRepos.length === 0) {
+      return repos
+        .filter(repo => !repo.private)
+        .sort((a, b) => new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime())
+        .slice(0, 6);
+    }
+    
+    return filteredRepos;
       
   } catch (error) {
     console.error('Error fetching GitHub repositories:', error);
