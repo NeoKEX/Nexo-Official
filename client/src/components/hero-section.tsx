@@ -57,7 +57,7 @@ export default function HeroSection() {
             <span className="text-gradient">Saifullah Al Neoaz</span>
           </h1>
           <h2 className="font-poppins font-semibold text-2xl md:text-3xl lg:text-4xl mb-4 text-slate-700 dark:text-slate-300">
-            (Xoro)
+            (nexo_here)
           </h2>
           <p className="text-xl md:text-2xl mb-8 text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
             Crafting Scalable Web Solutions with Precision

@@ -53,7 +53,7 @@ export default function Navigation() {
           {/* Logo */}
           <div className="font-poppins font-bold text-xl text-gradient cursor-pointer"
                onClick={() => scrollToSection("home")}>
-            Xoro
+            nexo_here
           </div>
           
           {/* Desktop Navigation */}

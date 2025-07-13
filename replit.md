@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a modern, responsive portfolio website for Saifullah Al Neoaz (Xoro), a web developer from Dinajpur, Bangladesh. The project is built as a full-stack application with a React frontend and Express backend, featuring a PostgreSQL database integration using Drizzle ORM.
+This is a modern, responsive portfolio website for Saifullah Al Neoaz (nexo_here), a web developer from Dinajpur, Bangladesh. The project is built as a full-stack application with a React frontend and Express backend, featuring a PostgreSQL database integration using Drizzle ORM.
 
 ## User Preferences
 
@@ -131,3 +131,36 @@ Preferred communication style: Simple, everyday language.
 **Problem**: Managing shared code between frontend and backend
 **Solution**: Shared folder for common types and schemas
 **Benefits**: Code reuse, consistent data models, easier maintenance
+
+## Production Deployment Options
+
+The portfolio is configured for deployment on multiple platforms:
+
+### 1. Vercel (Recommended for serverless)
+- Configuration: `vercel.json` included
+- Automatic builds and deployments
+- Commands: `vercel --prod`
+- Best for: Static sites with serverless functions
+
+### 2. Render
+- Configuration: `render.yaml` included
+- Full-stack deployment support
+- Commands: Connect Git repository
+- Best for: Full-stack applications
+
+### 3. Railway
+- Zero-config deployment
+- Environment: NODE_ENV=production
+- Commands: Connect Git repository
+- Best for: Simple full-stack deployment
+
+### 4. Docker/Container Platforms
+- Dockerfile with health checks included
+- Build: `docker build -t nexo-portfolio .`
+- Run: `docker run -p 5000:5000 nexo-portfolio`
+- Best for: Self-hosted or cloud containers
+
+### Production Environment Variables
+- `NODE_ENV=production` (required)
+- `DATABASE_URL` (optional, for future database features)
+- `PORT` (defaults to 5000)

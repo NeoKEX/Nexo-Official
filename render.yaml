@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: nexo-portfolio
+    env: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+    disk:
+      name: nexo-portfolio-disk
+      mountPath: /app/data
+      sizeGB: 1

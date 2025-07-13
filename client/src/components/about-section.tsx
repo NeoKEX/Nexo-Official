@@ -38,7 +38,7 @@ export default function AboutSection() {
                 <i className="fas fa-user w-6 text-blue-500"></i>
                 <div>
                   <span className="font-semibold">Name:</span>
-                  <span className="ml-2 text-slate-600 dark:text-slate-400">Saifullah Al Neoaz</span>
+                  <span className="ml-2 text-slate-600 dark:text-slate-400">Saifullah Al Neoaz (nexo_here)</span>
                 </div>
               </div>
               

@@ -96,7 +96,7 @@ export default function ServicesSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Hire Me to Build Your Next Project
+              Let's Build Something Together
             </motion.button>
           </div>
         </motion.div>

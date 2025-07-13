@@ -86,7 +86,7 @@ export default function Footer() {
         
         {/* Bottom Bar */}
         <div className="border-t border-slate-800 mt-8 pt-8 text-center">
-          <p>&copy; 2024 Saifullah Al Neoaz (Xoro). All rights reserved. Built with passion and modern web technologies.</p>
+          <p>&copy; 2024 Saifullah Al Neoaz (nexo_here). All rights reserved. Built with passion and modern web technologies.</p>
         </div>
       </div>
     </footer>
