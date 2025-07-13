@@ -94,13 +94,37 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-20">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16" data-aos="fade-up">
-          <h2 className="font-poppins font-bold text-4xl md:text-5xl mb-4 text-gradient">Get In Touch</h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+    <section id="contact" className="py-32 bg-white dark:bg-slate-950 relative overflow-hidden">
+      {/* Section Divider Wave */}
+      <div className="absolute top-0 left-0 w-full overflow-hidden">
+        <svg className="relative block w-full h-20" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path 
+            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+            className="fill-slate-100 dark:fill-slate-800"
+          />
+        </svg>
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="text-center mb-20" data-aos="fade-up">
+          <motion.h2 
+            className="font-poppins font-bold text-5xl md:text-6xl mb-6 bg-gradient-to-r from-green-600 via-blue-500 to-green-700 bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            viewport={{ once: true }}
+          >
+            Get In Touch
+          </motion.h2>
+          <motion.p 
+            className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
             Ready to start your project? Let's connect and bring your ideas to life
-          </p>
+          </motion.p>
         </div>
         
         <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">

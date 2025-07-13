@@ -16,129 +16,161 @@ export default function HeroSection() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const offsetTop = element.offsetTop - 80;
-      window.scrollTo({
-        top: offsetTop,
-        behavior: "smooth"
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
       });
     }
   };
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 gradient-bg opacity-20"></div>
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-green-500/10"></div>
+    <section id="home" className="h-screen flex flex-col items-center justify-center relative overflow-hidden">
+      {/* Animated Background with Particles */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 dark:from-slate-950 dark:via-blue-950 dark:to-slate-950"></div>
       
-      {/* Floating Elements */}
+      {/* Animated Gradient Waves */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-green-400/20 to-blue-800/20 animate-gradient bg-[length:200%_200%]"></div>
+      </div>
+      
+      {/* Floating Particles */}
       <motion.div 
-        className="absolute top-20 left-10 w-20 h-20 bg-blue-500/20 rounded-full"
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-20 left-1/4 w-4 h-4 bg-blue-400 rounded-full"
+        animate={{ 
+          y: [0, -30, 0],
+          opacity: [0.3, 1, 0.3]
+        }}
+        transition={{ 
+          duration: 4, 
+          repeat: Infinity, 
+          ease: "easeInOut",
+          delay: 0
+        }}
       />
       <motion.div 
-        className="absolute bottom-20 right-10 w-32 h-32 bg-green-500/20 rounded-full"
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute top-1/3 right-1/4 w-3 h-3 bg-green-400 rounded-full"
+        animate={{ 
+          y: [0, -40, 0],
+          opacity: [0.4, 1, 0.4]
+        }}
+        transition={{ 
+          duration: 5, 
+          repeat: Infinity, 
+          ease: "easeInOut",
+          delay: 1
+        }}
       />
       <motion.div 
-        className="absolute top-1/2 left-1/4 w-16 h-16 bg-blue-600/30 rounded-full"
-        animate={{ scale: [1, 1.2, 1] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-1/3 left-1/6 w-2 h-2 bg-blue-300 rounded-full"
+        animate={{ 
+          y: [0, -25, 0],
+          opacity: [0.5, 1, 0.5]
+        }}
+        transition={{ 
+          duration: 6, 
+          repeat: Infinity, 
+          ease: "easeInOut",
+          delay: 2
+        }}
+      />
+      <motion.div 
+        className="absolute top-2/3 right-1/3 w-6 h-6 bg-green-300 rounded-full"
+        animate={{ 
+          y: [0, -35, 0],
+          opacity: [0.2, 0.8, 0.2]
+        }}
+        transition={{ 
+          duration: 7, 
+          repeat: Infinity, 
+          ease: "easeInOut",
+          delay: 1.5
+        }}
       />
       
-      <div className="container mx-auto px-6 text-center relative z-10">
+      {/* Main Content */}
+      <div className="container mx-auto px-6 text-center relative z-10 text-white">
         <motion.div 
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="space-y-8"
         >
-          <h1 className="font-poppins font-bold text-5xl md:text-7xl lg:text-8xl mb-6">
-            <span className="text-gradient">Saifullah Al Neoaz</span>
-          </h1>
-          <h2 className="font-poppins font-semibold text-2xl md:text-3xl lg:text-4xl mb-4 text-slate-700 dark:text-slate-300">
-            (nexo_here)
-          </h2>
-          <p className="text-xl md:text-2xl mb-8 text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-            Crafting Scalable Web Solutions with Precision
-          </p>
+          {/* Hero Tagline */}
+          <motion.h1 
+            className="font-poppins font-bold text-4xl md:text-6xl lg:text-7xl leading-tight"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
+          >
+            Crafting Scalable
+            <br />
+            <span className="bg-gradient-to-r from-blue-400 via-green-300 to-blue-500 bg-clip-text text-transparent">
+              Web Solutions
+            </span>
+            <br />
+            with Precision
+          </motion.h1>
           
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          {/* Subtitle */}
+          <motion.p 
+            className="text-xl md:text-2xl text-slate-300 max-w-2xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+          >
+            Full-stack developer specializing in TypeScript, API integration, and scalable architecture
+          </motion.p>
+          
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.8 }}
+          >
             <motion.button
-              onClick={() => scrollToSection("portfolio")}
-              className="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-300 shadow-lg"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              onClick={() => scrollToSection("about")}
+              className="group relative px-12 py-4 bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold rounded-full overflow-hidden shadow-2xl hover:shadow-blue-500/25 transition-all duration-300"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.98 }}
             >
-              View My Work
+              <span className="relative z-10">Explore My Work</span>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-blue-600 to-green-500"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "0%" }}
+                transition={{ duration: 0.3 }}
+              />
             </motion.button>
-            <motion.button
-              onClick={() => scrollToSection("contact")}
-              className="px-8 py-4 border-2 border-blue-500 text-blue-500 font-semibold rounded-lg hover:bg-blue-500 hover:text-white transform hover:scale-105 transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Let's Connect
-            </motion.button>
-          </div>
-        </motion.div>
-        
-        {/* Tech Stack Preview */}
-        <motion.div 
-          className="mt-16"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-        >
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 uppercase tracking-wider">Tech Stack</p>
-          <div className="flex justify-center items-center space-x-8 flex-wrap gap-4">
-            {/* TypeScript */}
-            <motion.div 
-              className="group cursor-pointer"
-              whileHover={{ scale: 1.1 }}
-            >
-              <div className="w-12 h-12 glass dark:glass-dark rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <i className="fab fa-js-square text-2xl text-blue-500"></i>
-              </div>
-              <p className="text-xs mt-2 text-center opacity-0 group-hover:opacity-100 transition-opacity">TypeScript</p>
-            </motion.div>
-            
-            {/* Node.js */}
-            <motion.div 
-              className="group cursor-pointer"
-              whileHover={{ scale: 1.1 }}
-            >
-              <div className="w-12 h-12 glass dark:glass-dark rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <i className="fab fa-node-js text-2xl text-green-500"></i>
-              </div>
-              <p className="text-xs mt-2 text-center opacity-0 group-hover:opacity-100 transition-opacity">Node.js</p>
-            </motion.div>
-            
-            {/* GitHub */}
-            <motion.div 
-              className="group cursor-pointer"
-              whileHover={{ scale: 1.1 }}
-            >
-              <div className="w-12 h-12 glass dark:glass-dark rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <i className="fab fa-github text-2xl text-slate-700 dark:text-slate-300"></i>
-              </div>
-              <p className="text-xs mt-2 text-center opacity-0 group-hover:opacity-100 transition-opacity">GitHub</p>
-            </motion.div>
-            
-            {/* Replit */}
-            <motion.div 
-              className="group cursor-pointer"
-              whileHover={{ scale: 1.1 }}
-            >
-              <div className="w-12 h-12 glass dark:glass-dark rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <i className="fas fa-code text-2xl text-orange-500"></i>
-              </div>
-              <p className="text-xs mt-2 text-center opacity-0 group-hover:opacity-100 transition-opacity">Replit</p>
-            </motion.div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
+      
+      {/* Scroll Down Indicator */}
+      <motion.div 
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 1.2 }}
+        onClick={() => scrollToSection("about")}
+      >
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="flex flex-col items-center space-y-2 text-white/70 hover:text-white transition-colors"
+        >
+          <span className="text-sm font-medium tracking-wider">SCROLL</span>
+          <motion.div
+            className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center"
+            whileHover={{ borderColor: "rgba(255,255,255,0.8)" }}
+          >
+            <motion.div
+              className="w-1 h-3 bg-white/70 rounded-full mt-2"
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </motion.div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

@@ -60,13 +60,37 @@ export default function PortfolioSection() {
   ];
 
   return (
-    <section id="portfolio" className="py-20 bg-slate-100 dark:bg-slate-800">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16" data-aos="fade-up">
-          <h2 className="font-poppins font-bold text-4xl md:text-5xl mb-4 text-gradient">Portfolio</h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+    <section id="portfolio" className="py-32 bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 relative overflow-hidden">
+      {/* Section Divider Wave */}
+      <div className="absolute top-0 left-0 w-full overflow-hidden">
+        <svg className="relative block w-full h-20" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path 
+            d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
+            className="fill-white dark:fill-slate-950"
+          />
+        </svg>
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="text-center mb-20" data-aos="fade-up">
+          <motion.h2 
+            className="font-poppins font-bold text-5xl md:text-6xl mb-6 bg-gradient-to-r from-blue-600 via-green-500 to-blue-700 bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            viewport={{ once: true }}
+          >
+            Portfolio
+          </motion.h2>
+          <motion.p 
+            className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
             Showcasing my latest projects and technical achievements
-          </p>
+          </motion.p>
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
